@@ -41,11 +41,14 @@ Users can explore events, filter by genre, location, and date, and directly buy 
 
 ---
 🖼️ Screenshots 
-Add screenshots or GIFs here of the event search, filtering, or ticket redirect features.
-![Screenshot 2025-04-10 214822](https://github.com/user-attachments/assets/934d8022-17be-4e5a-832e-42c4db12e025)
-
+Screenshots of the event search, filtering, or ticket redirect features.
+Homepage:
 ![Screenshot 2025-04-10 214741](https://github.com/user-attachments/assets/d76e8a8a-ca75-4609-b6ea-a06368454386)
-
+SearchPAge:
+![Screenshot 2025-04-10 214822](https://github.com/user-attachments/assets/934d8022-17be-4e5a-832e-42c4db12e025)
+Event details Page:
+![Screenshot 2025-04-10 215256](https://github.com/user-attachments/assets/28a81ae7-7682-4332-8211-e5090b95e65e)
+---
 
 📌 Notes
 This project does not use MongoDB for now, since it fetches dynamic data directly from the Ticketmaster API.
