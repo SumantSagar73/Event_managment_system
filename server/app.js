@@ -5,7 +5,6 @@ const mongoose = require("mongoose");
 const eventRoutes = require("./routes/eventRoutes");
 const authRoutes = require("./routes/authRoutes");
 const ticketRoutes = require("./routes/ticketRoutes");
-const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -47,7 +46,6 @@ app.get("/api", (req, res) => {
       auth: "/api/auth",
       events: "/api/events",
       tickets: "/api/tickets",
-      users: "/api/users",
     },
   });
 });
@@ -63,7 +61,6 @@ app.get("/api/health", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/tickets", ticketRoutes);
-app.use("/api/users", userRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

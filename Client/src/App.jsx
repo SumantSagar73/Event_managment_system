@@ -16,8 +16,6 @@ import OrganizerDashboard from "./pages/OrganizerDashboard";
 import TicketCheckIn from "./pages/TicketCheckIn";
 import "./App.css";
 import "./style.css";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 // Optional scroll-to-top on route change
 const ScrollToTop = () => {
@@ -146,7 +144,6 @@ const AppContent = () => {
           </div>
         </div>
       </footer>
-      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

@@ -6,7 +6,7 @@ import { useAuth } from "../context/AuthContext";
 
 const EventDetails = () => {
   const { id } = useParams();
-  const { isAuthenticated, isInOrganizerMode, isAdmin } = useAuth();
+  const { user } = useAuth();
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -35,8 +35,8 @@ const EventDetails = () => {
       </div>
     );
 
-  // Update the canEdit variable to check for organizer mode
-  const canEdit = isAuthenticated && (isInOrganizerMode() || isAdmin());
+  // Check if user is the organizer or admin
+  const canEdit = user && (user.role === "admin" || user.userId === event.organizer);
 
   // Format date
   const eventDate = new Date(event.startDate).toLocaleDateString("en-US", {

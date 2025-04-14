@@ -2,69 +2,43 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const userSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: [true, "Please provide your name"],
-      trim: true,
-    },
-    email: {
-      type: String,
-      required: [true, "Please provide your email"],
-      unique: true,
-      lowercase: true,
-      trim: true,
-    },
-    password: {
-      type: String,
-      required: [true, "Please provide a password"],
-      minlength: 6,
-      select: false,
-    },
-    role: {
-      type: String,
-      enum: ["user", "organizer", "admin"],
-      default: "user",
-    },
-    activeRole: {
-      type: String,
-      enum: ["user", "organizer"],
-      default: "user",
-    },
-    profilePicture: {
-      type: String,
-      default: "",
-    },
-    phoneNumber: {
-      type: String,
-      default: "",
-    },
-    address: {
-      street: String,
-      city: String,
-      state: String,
-      zipCode: String,
-      country: String,
-    },
-    isVerified: {
-      type: Boolean,
-      default: false,
-    },
-    verificationToken: String,
-    resetPasswordToken: String,
-    resetPasswordExpires: Date,
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, "Please provide name"],
+    minlength: 3,
+    maxlength: 50,
   },
-  {
-    timestamps: true,
-  }
-);
+  email: {
+    type: String,
+    required: [true, "Please provide email"],
+    match: [
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      "Please provide a valid email",
+    ],
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: [true, "Please provide password"],
+    minlength: 6,
+  },
+  role: {
+    type: String,
+    enum: ["user", "organizer", "admin"],
+    default: "user",
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
 // Hash password before saving
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
-  this.password = await bcrypt.hash(this.password, 12);
-  next();
+userSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
 });
 
 // Generate JWT token
@@ -76,27 +50,9 @@ userSchema.methods.createJWT = function () {
   );
 };
 
-// Compare password method
+// Compare password
 userSchema.methods.comparePassword = async function (candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
 
-// Switch role method
-userSchema.methods.switchRole = async function (newRole) {
-  if (newRole !== "user" && newRole !== "organizer") {
-    throw new Error("Invalid role");
-  }
-  
-  // Only allow switching to organizer if user has organizer role
-  if (newRole === "organizer" && this.role !== "organizer" && this.role !== "admin") {
-    throw new Error("You don't have permission to switch to organizer role");
-  }
-  
-  this.activeRole = newRole;
-  await this.save();
-  return this;
-};
-
-const User = mongoose.model("User", userSchema);
-
-module.exports = User;
+module.exports = mongoose.model("User", userSchema);

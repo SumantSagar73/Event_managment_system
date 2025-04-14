@@ -98,41 +98,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const switchRole = async (newRole) => {
-    try {
-      setLoading(true);
-      const token = localStorage.getItem("token");
-      if (!token) {
-        throw new Error("Not authenticated");
-      }
-
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-
-      const { data } = await axios.post(
-        `${API_URL}/users/switch-role`,
-        { newRole },
-        config
-      );
-
-      setUser(prevUser => ({
-        ...prevUser,
-        activeRole: newRole,
-      }));
-
-      return data;
-    } catch (error) {
-      console.error("Error switching role:", error);
-      setError(error.response?.data?.message || "Failed to switch role");
-      throw error;
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const authContextValue = {
     user,
     token,
@@ -142,11 +107,9 @@ export const AuthProvider = ({ children }) => {
     login,
     logout,
     updateProfile,
-    switchRole,
     isAuthenticated: !!token,
     isOrganizer: user?.role === "organizer" || user?.role === "admin",
     isAdmin: user?.role === "admin",
-    isInOrganizerMode: user?.activeRole === "organizer",
   };
 
   return (

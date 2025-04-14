@@ -2,17 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
-import { toast } from "react-toastify";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
-const CreateEvent = ({ isEditing = false }) => {
+const CreateEvent = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { id } = useParams(); // Get event ID from URL if editing
   const { token } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const isEditing = Boolean(id);
 
+  // Initial event form state
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -39,9 +40,10 @@ const CreateEvent = ({ isEditing = false }) => {
     ],
   });
 
+  // Fetch event data if editing
   useEffect(() => {
     const fetchEvent = async () => {
-      if (isEditing && id) {
+      if (isEditing) {
         try {
           setLoading(true);
           const response = await axios.get(`${API_URL}/events/${id}`, {
@@ -58,7 +60,8 @@ const CreateEvent = ({ isEditing = false }) => {
           const startDate = new Date(event.startDate);
           const endDate = new Date(event.endDate);
 
-          setFormData({
+          // Create a new form data object with the event data
+          const newFormData = {
             name: event.name || "",
             description: event.description || "",
             eventType: event.eventType || "Other",
@@ -82,10 +85,12 @@ const CreateEvent = ({ isEditing = false }) => {
                 description: "Standard entry to event",
               },
             ],
-          });
+          };
+
+          setFormData(newFormData);
         } catch (err) {
           console.error("Error fetching event:", err);
-          setError(err.response?.data?.error || "Failed to load event data");
+          setError(err.response?.data?.error || "Failed to load event data. Please try again.");
         } finally {
           setLoading(false);
         }
@@ -95,6 +100,7 @@ const CreateEvent = ({ isEditing = false }) => {
     fetchEvent();
   }, [id, token, isEditing]);
 
+  // Handle input changes for main form fields
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -103,15 +109,18 @@ const CreateEvent = ({ isEditing = false }) => {
     }));
   };
 
+  // Handle changes to ticket tiers
   const handleTicketTierChange = (index, field, value) => {
     const updatedTiers = [...formData.ticketTiers];
     updatedTiers[index] = {
       ...updatedTiers[index],
-      [field]: field === "price" || field === "quantity" ? Number(value) : value,
+      [field]:
+        field === "price" || field === "quantity" ? Number(value) : value,
     };
     setFormData((prev) => ({ ...prev, ticketTiers: updatedTiers }));
   };
 
+  // Add a new ticket tier
   const addTicketTier = () => {
     setFormData((prev) => ({
       ...prev,
@@ -122,6 +131,7 @@ const CreateEvent = ({ isEditing = false }) => {
     }));
   };
 
+  // Remove a ticket tier
   const removeTicketTier = (index) => {
     if (formData.ticketTiers.length > 1) {
       const updatedTiers = formData.ticketTiers.filter((_, i) => i !== index);
@@ -129,12 +139,14 @@ const CreateEvent = ({ isEditing = false }) => {
     }
   };
 
+  // Submit form to create or update event
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
     try {
+      // Combine date and time fields
       const eventData = {
         ...formData,
         startDate: `${formData.startDate}T${formData.startTime}:00`,
@@ -149,6 +161,7 @@ const CreateEvent = ({ isEditing = false }) => {
         },
       };
 
+      // Remove temporary fields used for the form
       delete eventData.startTime;
       delete eventData.endTime;
       delete eventData.venue;
@@ -160,44 +173,34 @@ const CreateEvent = ({ isEditing = false }) => {
 
       let response;
       if (isEditing) {
+        // Update existing event
         response = await axios.put(`${API_URL}/events/${id}`, eventData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!response.data.event) {
           throw new Error("Failed to update event");
         }
-        toast.success("Event updated successfully!");
       } else {
+        // Create new event
         response = await axios.post(`${API_URL}/events`, eventData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!response.data.event) {
           throw new Error("Failed to create event");
         }
-        toast.success("Event created successfully!");
       }
 
+      // Navigate to the event page
       navigate(`/event/${response.data.event._id}`);
     } catch (err) {
       console.error("Error saving event:", err);
-      setError(err.response?.data?.error || err.message || "Failed to save event");
-      toast.error(err.response?.data?.error || err.message || "Failed to save event");
+      setError(
+        err.response?.data?.error || err.message || "Failed to save event. Please try again."
+      );
     } finally {
       setLoading(false);
     }
   };
-
-  if (loading) {
-    return (
-      <div className="container py-5">
-        <div className="text-center">
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="container py-5">
