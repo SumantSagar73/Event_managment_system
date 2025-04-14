@@ -1,18 +1,34 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { getEvents, getEventById } = require('../controllers/eventController');
+const {
+  getEventsFromAPI,
+  getEventByIdFromAPI,
+  createEvent,
+  getAllEvents,
+  getEventById,
+  updateEvent,
+  deleteEvent,
+  togglePublishEvent,
+  getMyEvents,
+} = require("../controllers/eventController");
+const authMiddleware = require("../middleware/authMiddleware");
+const organizerMiddleware = require("../middleware/organizerMiddleware");
 
-router.get('/', getEvents);
-router.get('/:id', getEventById);
-router.get("/", async (req, res) => {
-    const { countryCode = "US", keyword = "", priceMax = "" } = req.query;
-  
-    try {
-      const data = await fetchEvents(countryCode, keyword, priceMax);
-      res.json(data);
-    } catch (err) {
-      res.status(500).json({ error: "Failed to fetch events from external API" });
-    }
-  });
+// Public routes
+router.get("/api", getEventsFromAPI);
+router.get("/api/:id", getEventByIdFromAPI);
+router.get("/", getAllEvents);
+router.get("/:id", getEventById);
+
+// Protected routes - require authentication
+router.use(authMiddleware);
+router.get("/user/myevents", getMyEvents);
+
+// Protected routes - require organizer or admin role
+router.use(organizerMiddleware);
+router.post("/", createEvent);
+router.put("/:id", updateEvent);
+router.delete("/:id", deleteEvent);
+router.patch("/:id/publish", togglePublishEvent);
 
 module.exports = router;
