@@ -3,6 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import Loader from "../components/Loader";
+import Button from "../components/Button";
+import { FiArrowLeft } from 'react-icons/fi';
+import { FaQrcode } from 'react-icons/fa';
 
 const API_URL = "http://localhost:5000/api";
 
@@ -150,9 +153,7 @@ const TicketCheckIn = () => {
     return (
       <div className="container py-5">
         <div className="alert alert-danger">{error}</div>
-        <button className="btn btn-primary" onClick={() => navigate(-1)}>
-          Go Back
-        </button>
+        <Button variant="outline" onClick={() => navigate(-1)}>Go Back</Button>
       </div>
     );
   }
@@ -166,13 +167,10 @@ const TicketCheckIn = () => {
               <h2 className="mb-1">Ticket Check-In</h2>
               <p className="text-muted">{event.name}</p>
             </div>
-            <button
-              className="btn btn-outline-secondary"
-              onClick={() => navigate(`/organizer/events`)}
-            >
-              <i className="bi bi-arrow-left me-2"></i>
+            <Button variant="outline" onClick={() => navigate(`/organizer/events`)}>
+              <FiArrowLeft style={{ marginRight: 8 }} />
               Back to Events
-            </button>
+            </Button>
           </div>
 
           {/* Check-in Form */}
@@ -198,11 +196,7 @@ const TicketCheckIn = () => {
                     autoFocus
                     disabled={checkingIn}
                   />
-                  <button
-                    type="submit"
-                    className="btn btn-primary btn-lg"
-                    disabled={!ticketCode || checkingIn}
-                  >
+                  <Button type="submit" variant="primary" size="lg" disabled={!ticketCode || checkingIn}>
                     {checkingIn ? (
                       <>
                         <span className="spinner-border spinner-border-sm me-2"></span>
@@ -210,10 +204,11 @@ const TicketCheckIn = () => {
                       </>
                     ) : (
                       <>
-                        <i className="bi bi-qr-code-scan me-2"></i>Check In
+                        <FaQrcode style={{ marginRight: 8 }} />
+                        Check In
                       </>
                     )}
-                  </button>
+                  </Button>
                 </div>
 
                 {message.text && (
@@ -376,14 +371,9 @@ const TicketCheckIn = () => {
               </p>
             </div>
             <div className="card-footer">
-              <div className="d-grid">
-                <button
-                  className="btn btn-outline-primary"
-                  onClick={() => navigate(`/event/${event._id}`)}
-                >
-                  View Event Details
-                </button>
-              </div>
+                <div className="d-grid">
+                  <Button variant="outline" onClick={() => navigate(`/event/${event._id}`)}>View Event Details</Button>
+                </div>
             </div>
           </div>
         </div>

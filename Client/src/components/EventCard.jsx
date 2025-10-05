@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Button from "./Button";
+import { FiChevronRight } from 'react-icons/fi';
 
 const EventCard = ({ event }) => {
   // Check if this is a Ticketmaster event or a custom event
@@ -77,17 +79,7 @@ const EventCard = ({ event }) => {
             style={{ height: "200px", objectFit: "cover" }}
           />
           {genre && (
-            <span
-              className="event-badge position-absolute"
-              style={{
-                top: "15px",
-                right: "15px",
-                background: "rgba(106, 61, 232, 0.8)",
-                color: "white",
-                padding: "5px 10px",
-                borderRadius: "4px",
-              }}
-            >
+            <span className="event-badge position-absolute" style={{ top: "15px", right: "15px" }}>
               {genre}
             </span>
           )}
@@ -111,31 +103,24 @@ const EventCard = ({ event }) => {
             </p>
           )}
           <div className="d-flex align-items-center mb-3">
-            <i
-              className="bi bi-geo-alt me-2"
-              style={{ color: "var(--secondary-color)" }}
-            ></i>
+            <i className="bi bi-geo-alt me-2" style={{ color: "var(--muted-text)" }}></i>
             <span className="text-muted small">{venueLocation}</span>
           </div>
 
           {price && (
             <div className="d-flex justify-content-between align-items-center mb-3">
-              <span className="badge bg-light text-dark p-2">
-                <i
-                  className="bi bi-ticket-perforated me-1"
-                  style={{ color: "var(--secondary-color)" }}
-                ></i>
-                {price}
-              </span>
+              <span className="badge bg-light text-dark p-2">{price}</span>
             </div>
           )}
 
-          <Link
-            to={isCustomEvent ? `/event/${event._id}` : `/event/${event.id}`}
-            className="btn btn-primary mt-auto"
-          >
-            View Details
-          </Link>
+          <div className="mt-auto">
+            <Link to={isCustomEvent ? `/event/${event._id}` : `/event/${event.id}`}>
+              <Button variant="primary" size="md" className="d-inline-flex align-items-center">
+                  <FiChevronRight style={{ marginRight: 8 }} />
+                  View Details
+                </Button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import Loader from "../components/Loader";
+import Button from "../components/Button";
 
 const API_URL = "http://localhost:5000/api";
 
@@ -157,8 +158,8 @@ const MyTickets = () => {
           ></i>
           <h4 className="mt-3">You don't have any tickets yet</h4>
           <p className="text-muted mb-4">Browse events to purchase tickets</p>
-          <Link to="/events" className="btn btn-primary">
-            Browse Events
+          <Link to="/events">
+            <Button variant="primary">Browse Events</Button>
           </Link>
         </div>
       ) : (
@@ -240,22 +241,16 @@ const MyTickets = () => {
 
                       <div className="card-footer">
                         <div className="d-flex justify-content-between">
-                          <Link
-                            to={`/ticket/${ticket._id}`}
-                            className="btn btn-outline-primary btn-sm"
-                          >
-                            <i className="bi bi-eye me-1"></i>
-                            View
+                          <Link to={`/ticket/${ticket._id}`}>
+                            <Button variant="outline" size="sm" className="me-2">
+                              <i className="bi bi-eye me-1"></i>
+                              View
+                            </Button>
                           </Link>
-                          <button
-                            className="btn btn-outline-danger btn-sm"
-                            onClick={() =>
-                              handleCancelTicket(ticket._id, ticket.event.name)
-                            }
-                          >
+                          <Button variant="outline" size="sm" onClick={() => handleCancelTicket(ticket._id, ticket.event.name)}>
                             <i className="bi bi-x-circle me-1"></i>
                             Cancel
-                          </button>
+                          </Button>
                         </div>
                       </div>
                     </div>
@@ -328,12 +323,11 @@ const MyTickets = () => {
                       </div>
 
                       <div className="card-footer bg-light">
-                        <Link
-                          to={`/ticket/${ticket._id}`}
-                          className="btn btn-outline-secondary btn-sm"
-                        >
-                          <i className="bi bi-eye me-1"></i>
-                          View Details
+                        <Link to={`/ticket/${ticket._id}`}>
+                          <Button variant="outline" size="sm">
+                            <i className="bi bi-eye me-1"></i>
+                            View Details
+                          </Button>
                         </Link>
                       </div>
                     </div>

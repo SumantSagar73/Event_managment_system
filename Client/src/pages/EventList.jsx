@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import EventCard from "../components/EventCard";
+import Button from "../components/Button";
 import Loader from "../components/Loader";
 import RangeSlider from "react-bootstrap-range-slider";
 import "react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css";
@@ -131,24 +132,14 @@ const EventList = () => {
           </p>
         </div>
         <div className="col-md-6 d-flex justify-content-md-end align-items-center">
-          <button
-            className="btn btn-outline-primary d-flex align-items-center"
-            onClick={toggleFilters}
-          >
-            <i
-              className={`bi bi-sliders me-2 ${
-                filtersVisible ? "rotate-icon" : ""
-              }`}
-            ></i>
+          <Button variant="outline" className="d-flex align-items-center" onClick={toggleFilters}>
+            <i className={`bi bi-sliders me-2 ${filtersVisible ? "rotate-icon" : ""}`}></i>
             {filtersVisible ? "Hide Filters" : "Show Filters"}
-          </button>
+          </Button>
           {filtersVisible && (
-            <button
-              className="btn btn-link text-secondary ms-3"
-              onClick={clearFilters}
-            >
+            <Button variant="ghost" className="text-secondary ms-3" onClick={clearFilters}>
               Clear Filters
-            </button>
+            </Button>
           )}
         </div>
       </div>
@@ -173,13 +164,9 @@ const EventList = () => {
                 onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
               />
               {searchTerm && (
-                <button
-                  className="btn btn-outline-secondary"
-                  type="button"
-                  onClick={() => setSearchTerm("")}
-                >
+                <Button variant="outline" className="btn-outline-secondary" type="button" onClick={() => setSearchTerm("")}>
                   <i className="bi bi-x"></i>
-                </button>
+                </Button>
               )}
             </div>
           </div>
@@ -320,9 +307,9 @@ const EventList = () => {
           <p className="text-muted mb-4">
             Try adjusting your filters or search terms
           </p>
-          <button className="btn btn-primary" onClick={clearFilters}>
+          <Button variant="primary" onClick={clearFilters}>
             Clear All Filters
-          </button>
+          </Button>
         </div>
       ) : (
         <div className="row">

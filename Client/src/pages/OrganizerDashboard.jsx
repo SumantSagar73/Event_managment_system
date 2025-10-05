@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import Loader from "../components/Loader";
+import Button from "../components/Button";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
@@ -111,8 +112,10 @@ const OrganizerDashboard = () => {
     <div className="container py-5">
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2>My Events</h2>
-        <Link to="/organizer/create-event" className="btn btn-primary">
-          <i className="bi bi-plus-circle me-2"></i>Create New Event
+        <Link to="/organizer/create-event">
+          <Button variant="primary">
+            <i className="bi bi-plus-circle me-2"></i>Create New Event
+          </Button>
         </Link>
       </div>
 
@@ -155,7 +158,7 @@ const OrganizerDashboard = () => {
       </div>
 
       {/* Events Table */}
-      {events.length === 0 ? (
+          {events.length === 0 ? (
         <div className="text-center py-5">
           <i
             className="bi bi-calendar3 text-muted"
@@ -165,8 +168,8 @@ const OrganizerDashboard = () => {
           <p className="text-muted mb-4">
             Get started by creating your first event
           </p>
-          <Link to="/organizer/create-event" className="btn btn-primary">
-            Create Event
+          <Link to="/organizer/create-event">
+            <Button variant="primary">Create Event</Button>
           </Link>
         </div>
       ) : (
@@ -230,31 +233,25 @@ const OrganizerDashboard = () => {
                     </div>
                   </td>
                   <td>
-                    <div className="btn-group btn-group-sm">
-                      <Link
-                        to={`/event/${event._id}`}
-                        className="btn btn-outline-primary"
-                      >
-                        <i className="bi bi-eye"></i>
+                    <div className="d-inline-flex" role="group" aria-label="actions">
+                      <Link to={`/event/${event._id}`}>
+                        <Button variant="outline" size="sm" className="me-1">
+                          <i className="bi bi-eye"></i>
+                        </Button>
                       </Link>
-                      <Link
-                        to={`/organizer/edit-event/${event._id}`}
-                        className="btn btn-outline-secondary"
-                      >
-                        <i className="bi bi-pencil"></i>
+                      <Link to={`/organizer/edit-event/${event._id}`}>
+                        <Button variant="outline" size="sm" className="me-1">
+                          <i className="bi bi-pencil"></i>
+                        </Button>
                       </Link>
-                      <Link
-                        to={`/check-in/${event._id}`}
-                        className="btn btn-outline-success"
-                      >
-                        <i className="bi bi-ticket-perforated"></i>
+                      <Link to={`/check-in/${event._id}`}>
+                        <Button variant="outline" size="sm" className="me-1">
+                          <i className="bi bi-ticket-perforated"></i>
+                        </Button>
                       </Link>
-                      <button
-                        onClick={() => handleDeleteEvent(event._id)}
-                        className="btn btn-outline-danger"
-                      >
+                      <Button variant="outline" size="sm" onClick={() => handleDeleteEvent(event._id)}>
                         <i className="bi bi-trash"></i>
-                      </button>
+                      </Button>
                     </div>
                   </td>
                 </tr>

@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import EventCard from "../components/EventCard";
+import Button from "../components/Button";
 import Loader from "../components/Loader";
 
 const Home = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [categories, setCategories] = useState([
+  const [categories] = useState([
     { name: "Music", icon: "🎵", color: "#6a3de8" },
     { name: "Sports", icon: "⚽", color: "#00d9c5" },
     { name: "Arts", icon: "🎭", color: "#ff3c78" },
@@ -63,14 +64,15 @@ const Home = () => {
                 family events, and more.
               </p>
               <div className="d-flex gap-3 animate-fade-in">
-                <Link to="/events" className="btn btn-light btn-lg px-4">
-                  Find Events
+                <Link to="/events">
+                  <Button variant="ghost" className="btn-light btn-lg px-4">
+                    Find Events
+                  </Button>
                 </Link>
-                <a
-                  href="#featured"
-                  className="btn btn-outline-light btn-lg px-4"
-                >
-                  Popular Events
+                <a href="#featured">
+                  <Button variant="outline" className="btn-outline-light btn-lg px-4">
+                    Popular Events
+                  </Button>
                 </a>
               </div>
             </div>

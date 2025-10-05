@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import Button from "./Button";
+import { FiSearch } from 'react-icons/fi';
+import ThemeContext from '../context/ThemeContextCore';
+import { FiMoon, FiSun } from 'react-icons/fi';
 
 const Navbar = () => {
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
   const { isAuthenticated, isOrganizer, user, logout } = useAuth();
+  const { theme, toggle } = useContext(ThemeContext);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -19,7 +24,7 @@ const Navbar = () => {
     >
       <div className="container">
         <Link className="navbar-brand fw-bold d-flex align-items-center" to="/">
-          <span className="me-2" style={{ fontSize: "1.5rem" }}>
+          <span className="me-2" style={{ fontSize: "1.25rem", display: 'inline-flex' }}>
             🎫
           </span>
           <span style={{ letterSpacing: "-0.5px" }}>EventHub</span>
@@ -80,20 +85,18 @@ const Navbar = () => {
                 onChange={(e) => setQuery(e.target.value)}
                 style={{ borderRadius: "8px 0 0 8px" }}
               />
-              <button
-                className="btn"
-                type="submit"
-                style={{
-                  background: "var(--accent-color)",
-                  color: "var(--dark-color)",
-                  borderRadius: "0 8px 8px 0",
-                  padding: "0 20px",
-                }}
-              >
-                <i className="bi bi-search"></i>
-              </button>
+              <Button type="submit" className="btn-icon" style={{ borderRadius: '0 8px 8px 0' }}>
+                <FiSearch />
+              </Button>
             </div>
           </form>
+
+          {/* Theme toggle */}
+          <div className="me-3 d-flex align-items-center">
+            <Button onClick={toggle} className="btn-icon" aria-label="Toggle theme" title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}>
+              {theme === 'dark' ? <FiSun /> : <FiMoon />}
+            </Button>
+          </div>
 
           {/* User authentication links */}
           <ul className="navbar-nav">

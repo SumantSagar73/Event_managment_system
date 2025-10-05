@@ -3,6 +3,8 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import Loader from "../components/Loader";
+import Button from "../components/Button";
+import { FiExternalLink } from 'react-icons/fi';
 
 const API_URL = "http://localhost:5000/api";
 
@@ -35,7 +37,7 @@ const BookTicket = () => {
         if (response.data.event.ticketTiers?.length > 0) {
           setSelectedTier(response.data.event.ticketTiers[0].name);
         }
-      } catch (err) {
+      } catch {
         // If not found in our DB, it's a Ticketmaster event
         setIsTicketmaster(true);
       } finally {
@@ -140,14 +142,11 @@ const BookTicket = () => {
               Redirecting you to Ticketmaster for event ID:{" "}
               <strong>{id}</strong>
             </p>
-            <a
-              href={`https://www.ticketmaster.com/event/${id}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-primary btn-lg px-4"
-            >
-              <i className="bi bi-box-arrow-up-right me-2"></i>
-              Go to Ticketmaster
+            <a href={`https://www.ticketmaster.com/event/${id}`} target="_blank" rel="noopener noreferrer">
+              <Button variant="primary" size="lg" className="btn-icon">
+                <FiExternalLink style={{ marginRight: 8 }} />
+                Go to Ticketmaster
+              </Button>
             </a>
           </div>
         </div>
@@ -159,9 +158,7 @@ const BookTicket = () => {
     return (
       <div className="container py-5">
         <div className="alert alert-danger">{error}</div>
-        <button className="btn btn-primary" onClick={() => navigate(-1)}>
-          Go Back
-        </button>
+        <Button variant="outline" onClick={() => navigate(-1)}>Go Back</Button>
       </div>
     );
   }
@@ -170,9 +167,7 @@ const BookTicket = () => {
     return (
       <div className="container py-5">
         <div className="alert alert-warning">Event not found</div>
-        <button className="btn btn-primary" onClick={() => navigate("/events")}>
-          Browse Events
-        </button>
+        <Button variant="primary" onClick={() => navigate("/events")}>Browse Events</Button>
       </div>
     );
   }
@@ -301,15 +296,9 @@ const BookTicket = () => {
                 </div>
 
                 <div className="d-grid">
-                  <button
-                    type="submit"
-                    className="btn btn-primary"
-                    disabled={purchaseLoading || availableTickets === 0}
-                  >
-                    {purchaseLoading
-                      ? "Processing..."
-                      : `Complete Purchase • $${totalPrice.toFixed(2)}`}
-                  </button>
+                  <Button type="submit" variant="primary" disabled={purchaseLoading || availableTickets === 0}>
+                    {purchaseLoading ? 'Processing...' : `Complete Purchase • $${totalPrice.toFixed(2)}`}
+                  </Button>
                 </div>
               </form>
             </div>

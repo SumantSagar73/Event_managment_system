@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import Loader from "../components/Loader";
+import Button from "../components/Button";
+import { FiEdit2, FiExternalLink } from 'react-icons/fi';
 import { useAuth } from "../context/AuthContext";
 
 const EventDetails = () => {
@@ -29,8 +31,10 @@ const EventDetails = () => {
     return (
       <div className="container py-5 text-center">
         <h2>Event not found</h2>
-        <Link to="/events" className="btn btn-primary mt-3">
-          Browse Events
+        <Link to="/events">
+          <Button variant="primary" className="mt-3">
+            Browse Events
+          </Button>
         </Link>
       </div>
     );
@@ -102,17 +106,16 @@ const EventDetails = () => {
                 </div>
               </div>
 
-              {canEdit && (
-                <div className="ms-auto">
-                  <Link
-                    to={`/organizer/edit-event/${event._id}`}
-                    className="btn btn-light rounded-pill px-4"
-                  >
-                    <i className="bi bi-pencil-square me-2"></i>
-                    Edit Event
-                  </Link>
-                </div>
-              )}
+                {canEdit && (
+                  <div className="ms-auto">
+                    <Link to={`/organizer/edit-event/${event._id}`}>
+                      <Button variant="ghost" size="md" className="rounded-pill px-3">
+                        <FiEdit2 style={{ marginRight: 8 }} />
+                        Edit Event
+                      </Button>
+                    </Link>
+                  </div>
+                )}
             </div>
           </div>
         </div>
@@ -160,11 +163,10 @@ const EventDetails = () => {
                             <div className="fs-4 fw-bold text-primary">
                               ₹{tier.price.toLocaleString('en-IN')}
                             </div>
-                            <Link
-                              to={`/book/${event._id}`}
-                              className="btn btn-primary rounded-pill px-4"
-                            >
-                              Book Now
+                            <Link to={`/book/${event._id}`}>
+                              <Button variant="primary" size="md" className="rounded-pill px-4">
+                                Book Now
+                              </Button>
                             </Link>
                           </div>
                         </div>
@@ -179,13 +181,11 @@ const EventDetails = () => {
                 )}
 
                 {event.url && (
-                  <a
-                    href={event.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn btn-primary w-100 py-3 mb-3"
-                  >
-                    <i className="bi bi-ticket-fill me-2"></i> Buy Tickets
+                  <a href={event.url} target="_blank" rel="noopener noreferrer">
+                    <Button variant="primary" size="lg" className="w-100 py-3 mb-3">
+                      <FiExternalLink style={{ marginRight: 8 }} />
+                      Buy Tickets
+                    </Button>
                   </a>
                 )}
 
@@ -208,14 +208,14 @@ const EventDetails = () => {
                         </div>
 
                         {venue.url && (
-                          <a
-                            href={venue.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="btn btn-outline-primary btn-sm"
-                          >
-                            Venue Website{" "}
-                            <i className="bi bi-box-arrow-up-right ms-1"></i>
+                          <a href={venue.url} target="_blank" rel="noopener noreferrer">
+                            <Button variant="outline" size="sm">
+                              Venue Website
+                              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" xmlns="http://www.w3.org/2000/svg" style={{marginLeft:8}}>
+                                <path d="M14 3h7v7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                                <path d="M10 14L21 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                            </Button>
                           </a>
                         )}
                       </div>

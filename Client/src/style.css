@@ -1,163 +1,230 @@
-/* Modern UI Color Palette */
+/* Gen-Z + Professional Color Palette */
 :root {
-  --primary-color: #6a3de8;
-  --primary-dark: #5429d0;
-  --secondary-color: #ff3c78;
-  --dark-color: #1f1f29;
-  --light-color: #f8f9fa;
-  --accent-color: #00d9c5;
-  --text-color: #343a40;
-  --gray-light: #e9ecef;
-  --gray-dark: #6c757d;
-  --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-  --gradient: linear-gradient(
-    135deg,
-    var(--primary-color),
-    var(--secondary-color)
-  );
+  /* Core colors */
+  --bg: #0f1724; /* deep charcoal for contrast */
+  --surface: #111827; /* slightly lighter surface */
+  --muted: #9aa4b2; /* neutral muted text */
+  --primary: #6c5ce7; /* vibrant purple */
+  --primary-600: #5a47d1;
+  --accent: #00d9c5; /* teal accent */
+  --accent-600: #00bfa6;
+  --highlight: #ff6b9a; /* soft pink highlight */
+  --glass: rgba(255,255,255,0.04);
+  /* use a subtle single-tone card background for contrast in dark mode */
+  --card-bg: rgba(255,255,255,0.02);
+
+  /* increase text contrast for dark backgrounds */
+  --text: #f7fbff; /* brighter for high contrast */
+  --muted-text: #c6d8ec; /* slightly brighter muted text */
+  --box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+  --soft-radius: 14px;
 }
 
-/* Global font for body */
+/* Light theme overrides when data-theme="light" is present on html */
+[data-theme="light"] {
+  --bg: #ffffff;
+  --surface: #f8fafc;
+  --muted: #6c757d;
+  --text: #0f1724;
+  --muted-text: #4b5563;
+  --primary: #5b21b6; /* adjust for light */
+  --accent: #0d9488;
+  --highlight: #ef3b7a;
+  --card-bg: linear-gradient(180deg, rgba(2,6,23,0.02), rgba(2,6,23,0.01));
+  --box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+}
+
+/* Global font and body */
 body {
-  font-family: "Inter", "Poppins", sans-serif;
-  background-color: #f9f9f9;
-  color: var(--text-color);
+  font-family: "Inter", "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: var(--bg);
+  color: var(--text);
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Make all headers use modern typography */
+/* Headings */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  font-family: "Inter", "Poppins", sans-serif;
+  font-family: "Inter", "Poppins", system-ui, -apple-system;
   font-weight: 700;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.4px;
+  color: var(--text);
 }
 
-/* Apply clean font to event details/paragraphs */
+/* Content text */
 .event-description,
 .card-text,
 .detail-text,
 .lead {
-  font-family: "Inter", "Poppins", sans-serif;
-  font-size: 1.1rem;
+  font-family: Inter, Poppins, system-ui;
+  font-size: 1.02rem;
   line-height: 1.7;
+  color: var(--muted-text);
 }
 
 .event-meta {
-  color: var(--secondary-color);
-  font-weight: 600;
-  font-family: "Inter", "Raleway", sans-serif;
+  color: var(--highlight);
+  font-weight: 700;
+  font-family: Inter, Raleway, system-ui;
   font-size: 0.95rem;
   letter-spacing: 0.3px;
 }
 
-/* Card styling */
+/* Cards */
 .card {
-  border: none;
-  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.02);
+  border-radius: var(--soft-radius);
   overflow: hidden;
   box-shadow: var(--box-shadow);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.28s cubic-bezier(.2,.9,.3,1), box-shadow 0.28s;
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  transform: translateY(-6px) scale(1.006);
+  box-shadow: 0 18px 50px rgba(6,8,23,0.7);
+  border-color: rgba(255,255,255,0.06);
 }
 
 .card-img-top {
-  height: 200px;
+  height: 220px;
   object-fit: cover;
 }
 
-/* Button styling */
+/* Buttons */
 .btn {
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 10px 20px;
-  font-weight: 600;
-  transition: all 0.3s ease;
+  font-weight: 700;
+  transition: transform 180ms cubic-bezier(.2,.9,.3,1), box-shadow 180ms cubic-bezier(.2,.9,.3,1);
+  border: 1px solid transparent;
+  will-change: transform, box-shadow;
 }
 
 .btn-primary {
-  background: var(--primary-color);
-  border-color: var(--primary-color);
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 8px 30px rgba(92,52,200,0.14);
 }
 
 .btn-primary:hover {
-  background: var(--primary-dark);
-  border-color: var(--primary-dark);
-  transform: translateY(-2px);
+  transform: scale(1.04);
+  background: var(--primary-600);
+  box-shadow: 0 20px 48px rgba(79,45,196,0.18);
 }
 
-.btn-outline-primary {
-  color: var(--primary-color);
-  border-color: var(--primary-color);
+.btn-outline {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,0.06);
 }
 
-.btn-outline-primary:hover {
-  background: var(--primary-color);
-  color: white;
+.btn-ghost {
+  background: transparent;
+  color: var(--muted-text);
 }
 
-/* Navbar styling */
+/* Button sizes and icon layout */
+.btn-sm { padding: 6px 10px; font-size: 0.9rem; border-radius: 10px; }
+.btn-lg { padding: 14px 24px; font-size: 1.05rem; border-radius: 14px; }
+
+.btn-sm:hover { transform: scale(1.02); }
+.btn-lg:hover { transform: scale(1.06); }
+
+.btn-icon { display: inline-flex; align-items: center; gap: 10px; }
+.btn-icon .btn-icon-inner { display: inline-flex; align-items: center; justify-content: center; width: 1.2em; height: 1.2em; }
+.btn-icon svg { width: 1.05em; height: 1.05em; }
+
+.btn-primary.btn-icon .btn-icon-inner { filter: drop-shadow(0 6px 18px rgba(108,92,231,0.16)); }
+
+/* Navbar */
 .navbar {
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background: transparent;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  padding: 0.6rem 0;
 }
 
 .navbar-brand {
-  font-weight: 700;
+  font-weight: 800;
+  color: white;
+  letter-spacing: -0.6px;
 }
 
 /* Form controls */
 .form-control {
-  border-radius: 8px;
-  padding: 12px;
-  border: 1px solid var(--gray-light);
+  border-radius: 12px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.03);
+  color: var(--text);
+}
+
+/* Labels and helper text should follow theme colors for legibility */
+label,
+.form-label,
+.form-check-label,
+.form-text,
+.lead {
+  color: var(--text);
+}
+
+/* muted hints use muted-text variable */
+.form-hint,
+.muted {
+  color: var(--muted-text);
+}
+
+/* placeholders */
+::placeholder {
+  color: var(--muted-text);
+  opacity: 1;
 }
 
 .form-control:focus {
-  box-shadow: 0 0 0 3px rgba(106, 61, 232, 0.2);
-  border-color: var(--primary-color);
+  box-shadow: 0 6px 30px rgba(0,0,0,0.6), 0 0 0 6px rgba(108,92,231,0.07);
+  border-color: var(--primary-600);
 }
 
-/* Filter section */
+/* Filters */
 .filters {
-  background: white;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
   border-radius: 12px;
-  padding: 20px;
+  padding: 18px;
   box-shadow: var(--box-shadow);
 }
 
-/* Event badge */
+/* Badge */
 .event-badge {
-  background: var(--gradient);
+  background: var(--accent);
   color: white;
-  padding: 5px 12px;
-  border-radius: 20px;
+  padding: 6px 14px;
+  border-radius: 999px;
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: 700;
   display: inline-block;
   margin-right: 8px;
   margin-bottom: 8px;
 }
 
-/* Hero section */
+/* Hero */
 .hero-section {
-  background: var(--gradient);
-  color: white;
+  background: rgba(108,92,231,0.06);
+  color: var(--text);
   padding: 80px 0;
-  border-radius: 0 0 30px 30px;
+  border-radius: 0 0 32px 32px;
   margin-bottom: 40px;
 }
 
 .hero-section h1 {
-  font-size: 3.5rem;
-  font-weight: 800;
-  margin-bottom: 20px;
+  font-size: 3.2rem;
+  font-weight: 900;
+  margin-bottom: 14px;
+  color: var(--text);
 }
 
 .hero-image {
@@ -166,9 +233,9 @@ h6 {
   box-shadow: var(--box-shadow);
 }
 
-/* Event details page */
+/* Event details */
 .event-details {
-  background: white;
+  background: rgba(255,255,255,0.02);
   border-radius: 16px;
   padding: 30px;
   box-shadow: var(--box-shadow);
@@ -191,12 +258,12 @@ h6 {
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.65));
   color: white;
   padding: 30px;
 }
 
-/* Animations */
+/* Small animations */
 @keyframes fadeInUp {
   from {
     opacity: 0;

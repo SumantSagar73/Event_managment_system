@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import Button from "../components/Button";
 import { useAuth } from "../context/AuthContext";
 
 const Register = () => {
@@ -155,13 +156,9 @@ const Register = () => {
                 </div>
 
                 <div className="d-grid gap-2 mt-4">
-                  <button
-                    type="submit"
-                    className="btn btn-primary"
-                    disabled={isLoading}
-                  >
-                    {isLoading ? "Creating Account..." : "Register"}
-                  </button>
+                  <Button type="submit" variant="primary" disabled={isLoading}>
+                    {isLoading ? 'Creating Account...' : 'Register'}
+                  </Button>
                 </div>
               </form>
 
