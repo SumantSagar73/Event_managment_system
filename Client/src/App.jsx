@@ -16,6 +16,8 @@ import OrganizerDashboard from "./pages/OrganizerDashboard";
 import TicketCheckIn from "./pages/TicketCheckIn";
 import "./App.css";
 import "./style.css";
+import ThemeToggle from './components/ThemeToggle';
+import Logo from './assets/logo.svg';
 
 // Optional scroll-to-top on route change
 const ScrollToTop = () => {
@@ -53,6 +55,7 @@ const AppContent = () => {
   return (
     <div className="app-container">
       <Navbar />
+  <ThemeToggle />
       <main>
         <ScrollToTop />
         <Routes>
@@ -127,7 +130,10 @@ const AppContent = () => {
         <div className="container">
           <div className="row">
             <div className="col-md-6">
-              <h5 className="mb-3">🎫 EventHub</h5>
+              <h5 className="mb-3 d-flex align-items-center">
+                <img src={Logo} alt="EventHub logo" style={{ width: 28, height: 28, marginRight: 8 }} />
+                EventHub
+              </h5>
               <p className="mb-0 small">
                 Find and book tickets for concerts, sports, arts, theater, and
                 more events.

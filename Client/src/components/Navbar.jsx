@@ -1,16 +1,15 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Button from "./Button";
 import { FiSearch } from 'react-icons/fi';
-import ThemeContext from '../context/ThemeContextCore';
-import { FiMoon, FiSun } from 'react-icons/fi';
+// Theme toggle moved to floating control (see src/components/ThemeToggle.jsx)
+import Logo from '../assets/logo.svg';
 
 const Navbar = () => {
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
   const { isAuthenticated, isOrganizer, user, logout } = useAuth();
-  const { theme, toggle } = useContext(ThemeContext);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -18,15 +17,10 @@ const Navbar = () => {
   };
 
   return (
-    <nav
-      className="navbar navbar-expand-lg navbar-dark"
-      style={{ background: "var(--gradient)" }}
-    >
+    <nav className="navbar navbar-expand-lg navbar-dark">
       <div className="container">
         <Link className="navbar-brand fw-bold d-flex align-items-center" to="/">
-          <span className="me-2" style={{ fontSize: "1.25rem", display: 'inline-flex' }}>
-            🎫
-          </span>
+          <img src={Logo} alt="EventHub logo" title="EventHub" style={{ width: 44, height: 44, marginRight: 10 }} />
           <span style={{ letterSpacing: "-0.5px" }}>EventHub</span>
         </Link>
         <button
@@ -91,12 +85,6 @@ const Navbar = () => {
             </div>
           </form>
 
-          {/* Theme toggle */}
-          <div className="me-3 d-flex align-items-center">
-            <Button onClick={toggle} className="btn-icon" aria-label="Toggle theme" title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}>
-              {theme === 'dark' ? <FiSun /> : <FiMoon />}
-            </Button>
-          </div>
 
           {/* User authentication links */}
           <ul className="navbar-nav">
