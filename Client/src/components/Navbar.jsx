@@ -1,14 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Button from "./Button";
+import Input from './ui/Input';
+import UiButton from './ui/UiButton';
 import { FiSearch } from 'react-icons/fi';
 // Theme toggle moved to floating control (see src/components/ThemeToggle.jsx)
-import Logo from '../assets/logo.svg';
+import Logo from './Logo';
 
 const Navbar = () => {
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
+  const navRef = useRef(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { gsap } = await eval("import('gsap')");
+        if (navRef.current) gsap.from(navRef.current, { y: -12, autoAlpha: 0, duration: 0.6, ease: 'power3.out' });
+      } catch {
+        // ignore runtime gsap load failures
+      }
+    })();
+  }, []);
   const { isAuthenticated, isOrganizer, user, logout } = useAuth();
 
   const handleSearch = (e) => {
@@ -17,10 +31,10 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark">
+    <nav ref={navRef} className="navbar navbar-expand-lg navbar-dark">
       <div className="container">
         <Link className="navbar-brand fw-bold d-flex align-items-center" to="/">
-          <img src={Logo} alt="EventHub logo" title="EventHub" style={{ width: 44, height: 44, marginRight: 10 }} />
+          <Logo width={44} height={44} style={{ marginRight: 10 }} />
           <span style={{ letterSpacing: "-0.5px" }}>EventHub</span>
         </Link>
         <button
@@ -71,17 +85,16 @@ const Navbar = () => {
           </ul>
           <form className="d-flex me-2" onSubmit={handleSearch}>
             <div className="input-group">
-              <input
+              <Input
                 type="text"
-                className="form-control"
                 placeholder="Search events..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 style={{ borderRadius: "8px 0 0 8px" }}
               />
-              <Button type="submit" className="btn-icon" style={{ borderRadius: '0 8px 8px 0' }}>
+              <UiButton type="submit" className="btn-icon" style={{ borderRadius: '0 8px 8px 0' }}>
                 <FiSearch />
-              </Button>
+              </UiButton>
             </div>
           </form>
 

@@ -4,6 +4,9 @@ import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import Loader from "../components/Loader";
 import Button from "../components/Button";
+import UiButton from '../components/ui/UiButton';
+import Badge from '../components/ui/Badge';
+import { FaPlus, FaEye, FaPencilAlt, FaTicketAlt, FaTrash } from 'react-icons/fa';
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
@@ -113,9 +116,9 @@ const OrganizerDashboard = () => {
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2>My Events</h2>
         <Link to="/organizer/create-event">
-          <Button variant="primary">
-            <i className="bi bi-plus-circle me-2"></i>Create New Event
-          </Button>
+          <UiButton variant="primary">
+            <FaPlus style={{ marginRight: 8 }} /> Create New Event
+          </UiButton>
         </Link>
       </div>
 
@@ -206,19 +209,10 @@ const OrganizerDashboard = () => {
                     {event.location.city}, {event.location.country}
                   </td>
                   <td>
-                    <span
-                      className={`badge ${
-                        event.status === "Upcoming"
-                          ? "bg-primary"
-                          : event.status === "Ongoing"
-                          ? "bg-success"
-                          : event.status === "Completed"
-                          ? "bg-secondary"
-                          : "bg-danger"
-                      }`}
-                    >
-                      {event.status}
-                    </span>
+                    <Badge style={{
+                      background: event.status === 'Upcoming' ? 'var(--primary)' : event.status === 'Ongoing' ? 'var(--accent)' : event.status === 'Completed' ? 'var(--muted)' : 'var(--highlight)',
+                      color: '#fff'
+                    }}>{event.status}</Badge>
                   </td>
                   <td>
                     <div className="form-check form-switch">
@@ -235,23 +229,23 @@ const OrganizerDashboard = () => {
                   <td>
                     <div className="d-inline-flex" role="group" aria-label="actions">
                       <Link to={`/event/${event._id}`}>
-                        <Button variant="outline" size="sm" className="me-1">
-                          <i className="bi bi-eye"></i>
-                        </Button>
+                        <UiButton variant="outline" size="sm" className="me-1">
+                          <FaEye />
+                        </UiButton>
                       </Link>
                       <Link to={`/organizer/edit-event/${event._id}`}>
-                        <Button variant="outline" size="sm" className="me-1">
-                          <i className="bi bi-pencil"></i>
-                        </Button>
+                        <UiButton variant="outline" size="sm" className="me-1">
+                          <FaPencilAlt />
+                        </UiButton>
                       </Link>
                       <Link to={`/check-in/${event._id}`}>
-                        <Button variant="outline" size="sm" className="me-1">
-                          <i className="bi bi-ticket-perforated"></i>
-                        </Button>
+                        <UiButton variant="outline" size="sm" className="me-1">
+                          <FaTicketAlt />
+                        </UiButton>
                       </Link>
-                      <Button variant="outline" size="sm" onClick={() => handleDeleteEvent(event._id)}>
-                        <i className="bi bi-trash"></i>
-                      </Button>
+                      <UiButton variant="outline" size="sm" onClick={() => handleDeleteEvent(event._id)}>
+                        <FaTrash />
+                      </UiButton>
                     </div>
                   </td>
                 </tr>

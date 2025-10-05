@@ -3,6 +3,8 @@ import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import Loader from "../components/Loader";
 import Button from "../components/Button";
+import Badge from '../components/ui/Badge';
+import UiButton from '../components/ui/UiButton';
 import { FiEdit2, FiExternalLink } from 'react-icons/fi';
 import { useAuth } from "../context/AuthContext";
 
@@ -83,9 +85,9 @@ const EventDetails = () => {
         )}
         <div className="event-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center">
           <div className="container">
-            <span className="event-badge mb-3 px-3 py-2 rounded-pill bg-primary bg-opacity-75 text-white">
+            <Badge className="mb-3" style={{ background: 'var(--primary)', color: '#fff' }}>
               {genre} {subGenre && `• ${subGenre}`}
-            </span>
+            </Badge>
             <h1 className="display-4 fw-bold mb-4 text-white">{event.name}</h1>
             <div className="d-flex align-items-center flex-wrap gap-4">
               <div className="d-flex align-items-center">
@@ -163,11 +165,11 @@ const EventDetails = () => {
                             <div className="fs-4 fw-bold text-primary">
                               ₹{tier.price.toLocaleString('en-IN')}
                             </div>
-                            <Link to={`/book/${event._id}`}>
-                              <Button variant="primary" size="md" className="rounded-pill px-4">
-                                Book Now
-                              </Button>
-                            </Link>
+                                <Link to={`/book/${event._id}`}>
+                                  <UiButton variant="primary" size="md" className="rounded-pill px-4">
+                                    Book Now
+                                  </UiButton>
+                                </Link>
                           </div>
                         </div>
                       </div>

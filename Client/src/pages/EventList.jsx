@@ -3,6 +3,8 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import EventCard from "../components/EventCard";
 import Button from "../components/Button";
+import UiButton from '../components/ui/UiButton';
+import { FaSlidersH, FaTimes, FaTicketAlt, FaMapMarkerAlt, FaCalendarAlt, FaTag } from 'react-icons/fa';
 import Loader from "../components/Loader";
 import RangeSlider from "react-bootstrap-range-slider";
 import "react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css";
@@ -132,14 +134,14 @@ const EventList = () => {
           </p>
         </div>
         <div className="col-md-6 d-flex justify-content-md-end align-items-center">
-          <Button variant="outline" className="d-flex align-items-center" onClick={toggleFilters}>
-            <i className={`bi bi-sliders me-2 ${filtersVisible ? "rotate-icon" : ""}`}></i>
+          <UiButton variant="outline" className="d-flex align-items-center" onClick={toggleFilters}>
+            <FaSlidersH style={{ marginRight: 10 }} />
             {filtersVisible ? "Hide Filters" : "Show Filters"}
-          </Button>
+          </UiButton>
           {filtersVisible && (
-            <Button variant="ghost" className="text-secondary ms-3" onClick={clearFilters}>
-              Clear Filters
-            </Button>
+            <UiButton variant="ghost" className="text-secondary ms-3" onClick={clearFilters}>
+              <FaTimes style={{ marginRight: 8 }} /> Clear Filters
+            </UiButton>
           )}
         </div>
       </div>
@@ -153,8 +155,8 @@ const EventList = () => {
         <div className="row mb-3">
           <div className="col-12">
             <div className="input-group mb-3">
-              <span className="input-group-text bg-white">
-                <i className="bi bi-search"></i>
+              <span className="input-group-text" style={{ background: 'var(--card-bg)' }}>
+                <FaSlidersH />
               </span>
               <input
                 type="text"
@@ -164,22 +166,19 @@ const EventList = () => {
                 onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
               />
               {searchTerm && (
-                <Button variant="outline" className="btn-outline-secondary" type="button" onClick={() => setSearchTerm("")}>
-                  <i className="bi bi-x"></i>
-                </Button>
+                <UiButton variant="outline" className="btn-outline-secondary" type="button" onClick={() => setSearchTerm("")}>
+                  <FaTimes />
+                </UiButton>
               )}
             </div>
           </div>
         </div>
 
         <div className="row g-3">
-          <div className="col-md-3">
-            <div className="p-3 border rounded bg-white h-100">
+            <div className="col-md-3">
+            <div className="p-3 border rounded" style={{ background: 'var(--card-bg)' }}>
               <label className="form-label fw-bold">
-                <i
-                  className="bi bi-ticket-perforated me-2"
-                  style={{ color: "var(--secondary-color)" }}
-                ></i>
+                <FaTicketAlt style={{ marginRight: 8 }} />
                 Max Price
               </label>
               <RangeSlider
@@ -201,13 +200,10 @@ const EventList = () => {
             </div>
           </div>
 
-          <div className="col-md-3">
-            <div className="p-3 border rounded bg-white h-100">
+            <div className="col-md-3">
+            <div className="p-3 border rounded" style={{ background: 'var(--card-bg)' }}>
               <label className="form-label fw-bold">
-                <i
-                  className="bi bi-geo-alt me-2"
-                  style={{ color: "var(--secondary-color)" }}
-                ></i>
+                <FaMapMarkerAlt style={{ marginRight: 8 }} />
                 Location
               </label>
               <div className="input-group">
@@ -225,13 +221,10 @@ const EventList = () => {
             </div>
           </div>
 
-          <div className="col-md-3">
-            <div className="p-3 border rounded bg-white h-100">
+            <div className="col-md-3">
+            <div className="p-3 border rounded" style={{ background: 'var(--card-bg)' }}>
               <label className="form-label fw-bold">
-                <i
-                  className="bi bi-calendar-event me-2"
-                  style={{ color: "var(--secondary-color)" }}
-                ></i>
+                <FaCalendarAlt style={{ marginRight: 8 }} />
                 Date
               </label>
               <div className="row g-2">
@@ -266,13 +259,10 @@ const EventList = () => {
             </div>
           </div>
 
-          <div className="col-md-3">
-            <div className="p-3 border rounded bg-white h-100">
+            <div className="col-md-3">
+            <div className="p-3 border rounded" style={{ background: 'var(--card-bg)' }}>
               <label className="form-label fw-bold">
-                <i
-                  className="bi bi-tag me-2"
-                  style={{ color: "var(--secondary-color)" }}
-                ></i>
+                <FaTag style={{ marginRight: 8 }} />
                 Category
               </label>
               <select

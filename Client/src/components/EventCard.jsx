@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Button from "./Button";
+import Badge from './ui/Badge';
 import { FiChevronRight } from 'react-icons/fi';
 
 const EventCard = ({ event }) => {
@@ -68,20 +69,40 @@ const EventCard = ({ event }) => {
     ? `${event.priceRanges[0].min} - ${event.priceRanges[0].max} ${event.priceRanges[0].currency}`
     : null;
 
+  const cardRef = useRef(null);
+  const imgRef = useRef(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { gsap } = await eval("import('gsap')");
+        if (cardRef.current) {
+          gsap.from(cardRef.current, { autoAlpha: 0, y: 20, duration: 0.7, ease: 'power3.out', delay: 0.08 });
+        }
+        if (imgRef.current) {
+          gsap.from(imgRef.current, { scale: 1.08, autoAlpha: 0.85, duration: 1.1, ease: 'power3.out' });
+        }
+      } catch {
+        // gsap not available - skip animation
+      }
+    })();
+  }, []);
+
   return (
-    <div className="col-md-4 mb-4 animate-fade-in">
-      <div className="card h-100">
+    <div className="col-md-4 mb-4">
+      <div ref={cardRef} className="card h-100">
         <div className="position-relative">
           <img
+            ref={imgRef}
             src={imageUrl}
             className="card-img-top"
             alt={event.name}
             style={{ height: "200px", objectFit: "cover" }}
           />
           {genre && (
-            <span className="event-badge position-absolute" style={{ top: "15px", right: "15px" }}>
+            <Badge className="position-absolute" style={{ top: 15, right: 15 }}>
               {genre}
-            </span>
+            </Badge>
           )}
         </div>
         <div className="card-body d-flex flex-column">
@@ -109,16 +130,16 @@ const EventCard = ({ event }) => {
 
           {price && (
             <div className="d-flex justify-content-between align-items-center mb-3">
-              <span className="badge bg-light text-dark p-2">{price}</span>
+              <Badge style={{ background: 'var(--card-bg)', color: 'var(--text)' }}>{price}</Badge>
             </div>
           )}
 
           <div className="mt-auto">
             <Link to={isCustomEvent ? `/event/${event._id}` : `/event/${event.id}`}>
               <Button variant="primary" size="md" className="d-inline-flex align-items-center">
-                  <FiChevronRight style={{ marginRight: 8 }} />
-                  View Details
-                </Button>
+                <FiChevronRight style={{ marginRight: 8 }} />
+                View Details
+              </Button>
             </Link>
           </div>
         </div>

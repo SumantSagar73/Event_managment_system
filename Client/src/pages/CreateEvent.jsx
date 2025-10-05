@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "../components/Button";
+import UiButton from '../components/ui/UiButton';
+import { FaPlus, FaTrash, FaArrowLeft, FaCheckCircle } from 'react-icons/fa';
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 
@@ -469,9 +471,9 @@ const CreateEvent = () => {
                 <div className="mb-5">
                   <div className="d-flex justify-content-between align-items-center mb-4">
                     <h4 className="mb-0 fw-bold text-primary">Ticket Tiers</h4>
-                    <Button type="button" variant="primary" className="rounded-pill px-4" onClick={addTicketTier}>
-                      <i className="bi bi-plus-circle me-2"></i> Add Tier
-                    </Button>
+                    <UiButton type="button" variant="primary" className="rounded-pill px-4" onClick={addTicketTier}>
+                      <FaPlus style={{ marginRight: 8 }} /> Add Tier
+                    </UiButton>
                   </div>
 
                   {formData.ticketTiers.map((tier, index) => (
@@ -482,9 +484,9 @@ const CreateEvent = () => {
                             Ticket Tier #{index + 1}
                           </h5>
                           {formData.ticketTiers.length > 1 && (
-                            <Button type="button" variant="outline" className="btn-outline-danger rounded-pill" onClick={() => removeTicketTier(index)}>
-                              <i className="bi bi-trash"></i>
-                            </Button>
+                            <UiButton type="button" variant="outline" className="rounded-pill px-3" onClick={() => removeTicketTier(index)}>
+                              <FaTrash />
+                            </UiButton>
                           )}
                         </div>
 
@@ -573,22 +575,16 @@ const CreateEvent = () => {
 
                 {/* Submit Buttons */}
                 <div className="d-flex justify-content-between mt-4">
-                  <Button type="button" variant="outline" className="btn-outline-secondary rounded-pill px-4" onClick={() => navigate(-1)}>
-                    <i className="bi bi-arrow-left me-2"></i> Cancel
-                  </Button>
-                  <Button type="submit" variant="primary" className="rounded-pill px-5" disabled={loading}>
-                    {loading ? (
+                  <UiButton type="button" variant="outline" className="rounded-pill px-4" onClick={() => navigate(-1)}>
+                    <FaArrowLeft style={{ marginRight: 8 }} /> Cancel
+                  </UiButton>
+                  <UiButton type="submit" variant="primary" className="rounded-pill px-5" disabled={loading}>
+                    {loading ? 'Saving...' : (
                       <>
-                        <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                        Saving...
-                      </>
-                    ) : (
-                      <>
-                        <i className="bi bi-check-circle me-2"></i>
-                        Save Event
+                        <FaCheckCircle style={{ marginRight: 8 }} /> Save Event
                       </>
                     )}
-                  </Button>
+                  </UiButton>
                 </div>
               </form>
             </div>

@@ -101,6 +101,26 @@ h6 {
   transition: transform 0.28s cubic-bezier(.2,.9,.3,1), box-shadow 0.28s;
 }
 
+/* Compact category cards used on the Home page */
+.compact-category {
+  background: var(--card-bg);
+  border: 1px solid transparent;
+  padding: 8px 6px;
+}
+
+.category-icon {
+  transition: transform 160ms ease, box-shadow 160ms ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+}
+
+.compact-category:hover .category-icon {
+  transform: scale(1.06);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.22);
+}
+
 .card:hover {
   transform: translateY(-6px) scale(1.006);
   box-shadow: 0 18px 50px rgba(2,6,23,0.72);
@@ -267,6 +287,14 @@ label,
   margin-right: 8px;
   margin-bottom: 8px;
 }
+
+.hover-lift:hover { transform: translateY(-8px); }
+
+/* UI primitives */
+.ui-input { border-radius: 12px; padding: 10px 12px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text); }
+
+/* Logo variables for inline SVG theming */
+:root { --gf-start: #8B5CF6; --gf-end: #06B6D4; --gf-accent: #F472B6; }
 
 /* Hero */
 .hero-section {

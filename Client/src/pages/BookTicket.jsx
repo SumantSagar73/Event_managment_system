@@ -3,7 +3,9 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import Loader from "../components/Loader";
-import Button from "../components/Button";
+import Button from "../components/Button"; 
+import UiButton from '../components/ui/UiButton';
+import Badge from '../components/ui/Badge';
 import { FiExternalLink } from 'react-icons/fi';
 
 const API_URL = "http://localhost:5000/api";
@@ -143,10 +145,10 @@ const BookTicket = () => {
               <strong>{id}</strong>
             </p>
             <a href={`https://www.ticketmaster.com/event/${id}`} target="_blank" rel="noopener noreferrer">
-              <Button variant="primary" size="lg" className="btn-icon">
+              <UiButton variant="primary" size="lg" className="btn-icon">
                 <FiExternalLink style={{ marginRight: 8 }} />
                 Go to Ticketmaster
-              </Button>
+              </UiButton>
             </a>
           </div>
         </div>
@@ -158,7 +160,7 @@ const BookTicket = () => {
     return (
       <div className="container py-5">
         <div className="alert alert-danger">{error}</div>
-        <Button variant="outline" onClick={() => navigate(-1)}>Go Back</Button>
+        <UiButton variant="outline" onClick={() => navigate(-1)}>Go Back</UiButton>
       </div>
     );
   }
@@ -167,7 +169,7 @@ const BookTicket = () => {
     return (
       <div className="container py-5">
         <div className="alert alert-warning">Event not found</div>
-        <Button variant="primary" onClick={() => navigate("/events")}>Browse Events</Button>
+        <UiButton variant="primary" onClick={() => navigate("/events")}>Browse Events</UiButton>
       </div>
     );
   }
@@ -295,11 +297,11 @@ const BookTicket = () => {
                   )}
                 </div>
 
-                <div className="d-grid">
-                  <Button type="submit" variant="primary" disabled={purchaseLoading || availableTickets === 0}>
-                    {purchaseLoading ? 'Processing...' : `Complete Purchase • $${totalPrice.toFixed(2)}`}
-                  </Button>
-                </div>
+                  <div className="d-grid">
+                    <UiButton type="submit" variant="primary" disabled={purchaseLoading || availableTickets === 0}>
+                      {purchaseLoading ? 'Processing...' : `Complete Purchase • $${totalPrice.toFixed(2)}`}
+                    </UiButton>
+                  </div>
               </form>
             </div>
           </div>
@@ -316,9 +318,9 @@ const BookTicket = () => {
                 <div key={index} className="mb-3 pb-3 border-bottom">
                   <div className="d-flex justify-content-between align-items-center mb-2">
                     <h6 className="mb-0">{tier.name}</h6>
-                    <span className="badge bg-primary">
+                    <Badge style={{ background: 'var(--primary)', color: '#fff' }}>
                       ${tier.price.toFixed(2)}
-                    </span>
+                    </Badge>
                   </div>
                   <p className="text-muted small mb-2">
                     {tier.description || "No description available"}

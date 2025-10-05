@@ -1,19 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import EventCard from "../components/EventCard";
 import Button from "../components/Button";
+import UiButton from '../components/ui/UiButton';
+import { FaMusic, FaFutbol, FaTheaterMasks, FaUsers } from 'react-icons/fa';
+import Card from '../components/ui/Card';
 import Loader from "../components/Loader";
 
 const Home = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [categories] = useState([
-    { name: "Music", icon: "🎵", color: "#6a3de8" },
-    { name: "Sports", icon: "⚽", color: "#00d9c5" },
-    { name: "Arts", icon: "🎭", color: "#ff3c78" },
-    { name: "Family", icon: "👨‍👩‍👧‍👦", color: "#ffb302" },
+    { name: "Music", icon: <FaMusic />, color: "#6a3de8" },
+    { name: "Sports", icon: <FaFutbol />, color: "#00d9c5" },
+    { name: "Arts", icon: <FaTheaterMasks />, color: "#ff3c78" },
+    { name: "Family", icon: <FaUsers />, color: "#ffb302" },
   ]);
+
+  const heroRef = useRef(null);
+  const categoriesRef = useRef([]);
 
   useEffect(() => {
     setLoading(true);
@@ -49,6 +55,25 @@ const Home = () => {
   // Get current month name
   const currentMonth = new Date().toLocaleString("default", { month: "long" });
 
+  useEffect(() => {
+    // Lazy import gsap at runtime using eval to avoid Vite static analysis when the
+    // dependency hasn't been installed. If gsap is missing, fail silently.
+    (async () => {
+      try {
+        const { gsap } = await eval("import('gsap')");
+        if (heroRef.current) {
+          gsap.from(heroRef.current.querySelectorAll('.animate-fade-in'), { y: 20, autoAlpha: 0, stagger: 0.12, duration: 0.8, ease: 'power3.out' });
+        }
+
+        if (categoriesRef.current.length) {
+          gsap.from(categoriesRef.current, { y: 18, autoAlpha: 0, stagger: 0.08, duration: 0.7, ease: 'power3.out' });
+        }
+      } catch {
+        // gsap not installed or load failed — animations will be skipped
+      }
+    })();
+  }, []);
+
   return (
     <div className="home-page w-100">
       {/* Hero Section */}
@@ -65,19 +90,19 @@ const Home = () => {
               </p>
               <div className="d-flex gap-3 animate-fade-in">
                 <Link to="/events">
-                  <Button variant="ghost" className="btn-light btn-lg px-4">
+                  <UiButton variant="ghost" size="lg" className="px-4">
                     Find Events
-                  </Button>
+                  </UiButton>
                 </Link>
                 <a href="#featured">
-                  <Button variant="outline" className="btn-outline-light btn-lg px-4">
+                  <UiButton variant="outline" size="lg" className="px-4">
                     Popular Events
-                  </Button>
+                  </UiButton>
                 </a>
               </div>
             </div>
             <div className="col-lg-6">
-              <div className="hero-image animate-fade-in">
+              <div ref={heroRef} className="hero-image animate-fade-in">
                 <img
                   src="https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80"
                   alt="Event crowd"
@@ -101,37 +126,26 @@ const Home = () => {
         </div>
         <div className="row justify-content-center">
           {categories.map((category, index) => (
-            <div className="col-6 col-md-3 mb-4" key={index}>
+            <div className="col-6 col-md-3 mb-4" key={index} ref={(el) => (categoriesRef.current[index] = el)}>
               <Link
                 to={`/events?keyword=${category.name}`}
                 className="text-decoration-none"
               >
-                <div
-                  className="card border-0 text-center py-4 h-100"
-                  style={{
-                    backgroundColor: "white",
-                    transition: "transform 0.2s",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-10px)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "translateY(0)";
-                  }}
-                >
-                  <div className="card-body">
+                <div className="card border-0 text-center py-3 h-100 hover-lift compact-category">
+                  <div className="card-body d-flex flex-column align-items-center">
                     <div
-                      className="rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3"
+                      className="rounded-circle d-flex align-items-center justify-content-center mb-2 category-icon"
                       style={{
-                        width: "80px",
-                        height: "80px",
-                        backgroundColor: `${category.color}15`,
-                        fontSize: "2rem",
+                        width: 64,
+                        height: 64,
+                        backgroundColor: `${category.color}18`,
+                        fontSize: '1.25rem',
+                        color: category.color
                       }}
                     >
-                      <span>{category.icon}</span>
+                      {category.icon}
                     </div>
-                    <h5 className="card-title mb-0 fw-bold">{category.name}</h5>
+                    <h6 className="card-title mb-0 fw-semibold">{category.name}</h6>
                   </div>
                 </div>
               </Link>
@@ -144,8 +158,8 @@ const Home = () => {
       <section className="container py-5 w-100" id="featured">
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h2 className="fw-bold mb-0">Popular in {currentMonth}</h2>
-          <Link to="/events" className="btn btn-outline-primary">
-            View All
+          <Link to="/events">
+            <UiButton variant="outline">View All</UiButton>
           </Link>
         </div>
 

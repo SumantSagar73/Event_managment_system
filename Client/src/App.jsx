@@ -17,7 +17,8 @@ import TicketCheckIn from "./pages/TicketCheckIn";
 import "./App.css";
 import "./style.css";
 import ThemeToggle from './components/ThemeToggle';
-import Logo from './assets/logo.svg';
+import Logo from './components/Logo';
+import { useEffect } from 'react';
 
 // Optional scroll-to-top on route change
 const ScrollToTop = () => {
@@ -52,6 +53,17 @@ const ProtectedRoute = ({ children, requiredRole }) => {
 
 // Main App component
 const AppContent = () => {
+  useEffect(() => {
+    (async () => {
+      try {
+        const { gsap } = await eval("import('gsap')");
+        const f = document.getElementById('app-footer');
+        if (f) gsap.from(f, { autoAlpha: 0, y: 12, duration: 0.8, ease: 'power3.out' });
+      } catch {
+        // ignore
+      }
+    })();
+  }, []);
   return (
     <div className="app-container">
       <Navbar />
@@ -126,12 +138,12 @@ const AppContent = () => {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
-      <footer className="bg-dark text-white py-4 mt-5">
+      <footer id="app-footer" className="bg-dark text-white py-4 mt-5">
         <div className="container">
           <div className="row">
             <div className="col-md-6">
               <h5 className="mb-3 d-flex align-items-center">
-                <img src={Logo} alt="EventHub logo" style={{ width: 28, height: 28, marginRight: 8 }} />
+                <Logo width={28} height={28} style={{ marginRight: 8 }} />
                 EventHub
               </h5>
               <p className="mb-0 small">
